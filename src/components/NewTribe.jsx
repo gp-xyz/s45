@@ -20,6 +20,7 @@ function NewTribe() {
         const data = await response.json();
         if (data) {
           setContestants(data);
+          console.log('contesants:')
           console.log(data);
         }
       } catch (error) {
