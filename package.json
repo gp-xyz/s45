@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "netlify": "netlify"
   },
   "dependencies": {
+    "faunadb": "^4.8.0",
     "netlify-cli": "^16.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
