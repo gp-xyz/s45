@@ -16,7 +16,6 @@ function Router() {
         <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/tribes" element={<Tribes />} />
-        <Route exact path="/stats" element={<Stats />} />
         <Route exact path="/contestants" element={<Contestants />} />
         <Route exact path="/new" element={<NewTribe />} />
         </Routes> 

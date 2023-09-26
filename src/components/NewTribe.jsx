@@ -11,7 +11,11 @@ function NewTribe() {
   useEffect(() => {
     fetch(`${config.serverName}/contestants`)
       .then(response => response.json())
-      .then(data => setContestants(data));
+      .then(data => {
+        setContestants(data)
+        console.log(data)
+        
+      });
   }, []);
 
 
