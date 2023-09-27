@@ -32,7 +32,7 @@ exports.handler = async function (event, context) {
 
   try {
     const response = await client.query(
-      q.Create(q.Collection('sofaTribes'), { data: data })
+      q.Create(q.Collection('sofatribes'), { data: data })
     );
 
     return {

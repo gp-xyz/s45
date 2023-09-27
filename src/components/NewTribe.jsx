@@ -13,7 +13,12 @@ function NewTribe() {
   function handleSubmit(event) {
     event.preventDefault();
     
-    const outData = { 'tribename': tribeName, energy: energy, picked: picked };
+    const outData = { 
+      name: tribeName, 
+      motto: energy, 
+      survivors: picked.map(p => p.name) 
+    };
+    
     fetch(`/.netlify/functions/submitTribe`, { // Assuming you have a function to handle this
       method: 'POST',
       headers: { "Content-Type": "application/json" },

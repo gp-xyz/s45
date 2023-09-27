@@ -44,7 +44,9 @@ function Tribes() {
           {tribes.length ? (tribes.map((tribe, index) => (
             <div className='grid grid-cols-2 md:grid-cols-5'>
               <div className='col-span-2 underline md:no-underline'>
-                <span className='p-2 text-white drop-shadow-md '>({/* insert appropriate value for total here */})</span>
+              <span className='p-2 text-white drop-shadow-md '>
+                    ({tribe.survivors.filter(survivor => !deadList.includes(survivor)).length})
+                </span>
                 {tribe.name}
               </div>
               
