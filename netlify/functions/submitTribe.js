@@ -41,7 +41,8 @@ exports.handler = async function (event, context) {
       headers: corsHeaders
     };
   } catch (error) {
-    console.error('Error creating tribe:', error);
+    console.error('Error Details:', error);
+    console.error('Sent Data:', data);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Internal Server Error' }),
