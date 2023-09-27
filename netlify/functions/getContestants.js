@@ -9,15 +9,13 @@ export const handler = async (event, context) => {
   try {
     // Fetch the only document in the collection
     const result = await client.query(
-      q.Get(
-        q.Select(
-          [0],
-          q.Paginate(q.Documents(q.Collection('contesants')), {
-            size: 10,
-          })
-        )
+      q.Map(
+        q.Paginate(q.Documents(q.Collection('contestants')), { size: 18 }),
+        q.Lambda('ref', q.Select(['data'], q.Get(q.Var('ref'))))
       )
     );
+    
+    
 
     return {
       statusCode: 200,

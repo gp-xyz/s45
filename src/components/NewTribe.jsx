@@ -13,14 +13,14 @@ function NewTribe() {
     // Fetch the contestants data directly
     const fetchContestants = async () => {
       try {
-        const response = await fetch(`${config.serverName3}/.netlify/functions/getContestants`);
+        const response = await fetch(`/.netlify/functions/getContestants`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
         if (data) {
           setContestants(data);
-          console.log('contesants:')
+          console.log('contestants:')
           console.log(data);
         }
       } catch (error) {
