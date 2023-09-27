@@ -2,47 +2,29 @@ import React, { useState, useEffect } from 'react';
 import Picker from './Picker';
 import { Link } from 'react-router-dom';
 import config from './config';
-
+import { useAppContext } from './AppContext';
 function NewTribe() {
-  const [contestants, setContestants] = useState([]);
   const [tribeName, setTribeName] = useState('');
   const [energy, setEnergy] = useState('');
   const [picked, setPicked] = useState([]);
-
-  useEffect(() => {
-    // Fetch the contestants data directly
-    const fetchContestants = async () => {
-      try {
-        const response = await fetch(`/.netlify/functions/getContestants`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        if (data) {
-          setContestants(data);
-          console.log('contestants:')
-          console.log(data);
-        }
-      } catch (error) {
-        console.error("There was a problem fetching contestants:", error);
-      }
-    };
-
-    fetchContestants(); // Call the fetchContestants function
-  }, []);
+  const { contestants, deadList } = useAppContext();
+ 
 
   function handleSubmit(event) {
     event.preventDefault();
-
+    
     const outData = { 'tribename': tribeName, energy: energy, picked: picked };
-    fetch(`${config.serverName}/submit`, {
+    fetch(`/.netlify/functions/submitTribe`, { // Assuming you have a function to handle this
       method: 'POST',
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(outData)
-    });
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error("There was an error submitting the tribe:", error));
+    
     console.log(outData);
   }
-
   function NTCallback(event) {
     console.log(event);
     setPicked(event);

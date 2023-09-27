@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import config from './config';
-
+import { useAppContext } from './AppContext';
 function Tribes() {
   const colors = ['#b71c1c', '#880E4F', '#6A1B9A', '#4527A0', '#283593',
     '#1565C0', '#006064', '#004D40', '#2E7D32', '#558B2F',
@@ -8,60 +8,28 @@ function Tribes() {
     '#4E342E', '#616161', '#455A64', '#00838F', '#C62828']
 
 
-  const [tribes, setTribes] = useState([]);
   const [listview, setListView] = useState(false);
   const [colorobj, setColorobj] = useState(colors);
-  const [deadlist, setDeadList] = useState([])
-
+  const { tribes, deadList } = useAppContext();
   useEffect(() => {
-    let templist = [];
-    fetch(`${config.serverName}/tribes/`)
-      .then(response => response.json())
-      .then(data => {
-        setTribes(data)
-        let curcolor = 0
-        let newobj = {}
-        data.forEach(element => {
-
-          if (!(element.pick1 in newobj)) {
-            newobj[element.pick1] = colors[curcolor]
-            curcolor++
-          }
-          if (!(element.pick2 in newobj)) {
-            newobj[element.pick2] = colors[curcolor]
-            curcolor++
-          }
-          if (!(element.pick3 in newobj)) {
-            newobj[element.pick3] = colors[curcolor]
-            curcolor++
-          }
-
-
-          if (element.p1 === 1) {
-            templist.push(element.pick1);
-          }
-          if (element.p2 === 1) {
-            templist.push(element.pick2);
-          }
-          if (element.p3 === 1) {
-            templist.push(element.pick3);
-          }
-
+    let curcolor = 0;
+    let newobj = {};
+    
+    tribes.forEach(tribe => {
+      tribe.survivors.forEach(survivor => {
+        if (!(survivor in newobj)) {
+          newobj[survivor] = colors[curcolor];
+          curcolor++;
         }
+      });
+    });
+    setColorobj(newobj);
+  }, [tribes]);
 
-        );
-        setColorobj(newobj)
-        setDeadList(templist)
-        console.log('gg:')
-        console.log(newobj)
-      })
-      .catch(error => console.error(error));
-  }, []);
 
   const toggleListView = () => {
     setListView(!listview);
   };
-
   return (
     <div className='bubblebox'>
       <h2 className='sofaheader'>
@@ -74,23 +42,22 @@ function Tribes() {
       {listview ? (
         <div className='bg-slate-400 rounded-sm p-4 grid grid-cols-1'>
           {tribes.length ? (tribes.map((tribe, index) => (
-
             <div className='grid grid-cols-2 md:grid-cols-5'>
-              <div className='col-span-2 underline md:no-underline'><span className='p-2 text-white drop-shadow-md '>({tribe.total})</span>{tribe.tribename}</div>
-
-              {[tribe.pick1, tribe.pick2, tribe.pick3].map((item, index) => {
-                const isDead = deadlist.includes(item);
+              <div className='col-span-2 underline md:no-underline'>
+                <span className='p-2 text-white drop-shadow-md '>({/* insert appropriate value for total here */})</span>
+                {tribe.name}
+              </div>
+              
+              {tribe.survivors.map((survivor, index) => {
+                const isDead = deadList.includes(survivor);
                 return (
-                  <div className={`p-2 font-semibold ${isDead ? 'line-through' : ''}`} key={item}>
-                    <font color={colorobj[item]}> {item} </font>
+                  <div className={`p-2 font-semibold ${isDead ? 'line-through' : ''}`} key={survivor}>
+                    <font color={colorobj[survivor]}> {survivor} </font>
                   </div>
                 );
               })}
-
-
-
+              
             </div>
-
           ))) : (<div className='lilbubble'>Loading..</div>)}
         </div>
       ) : (
@@ -99,26 +66,27 @@ function Tribes() {
             <li key={index} className='lilbubble max-h-50'>
               <div className='grid grid-cols-1 md:grid-cols-2 inline-block align-middle'>
                 <div>
-                  <strong>{tribe.tribename}</strong> - {tribe.catchphrase}
+                  <strong>{tribe.name}</strong> - {tribe.motto}
                   <br />
-                  [{tribe.pick1}, {tribe.pick2}, {tribe.pick3}] <br />
+                  [{tribe.survivors.join(', ')}] <br />
                 </div>
-
+                
                 <div className='grid grid-cols-3 border-yellow-300 border-4 p-1'>
-                  {[tribe.pick1, tribe.pick2, tribe.pick3].map((pick, index) => {
-                    const isDead = deadlist.includes(tribe['pick' + (index + 1) ])
+                  {tribe.survivors.map((survivor, index) => {
+                    const isDead = deadList.includes(survivor);
                     return (
-                    <div className='image-container' key={index}>
-                      <img
-                        className='w-full h-auto'
-                        src={'/images/' + pick + '.jpg'}
-                        alt={pick}
-                      />
-                      { isDead && (
-                        <div className='overlay'></div>
-                      )}
-                    </div>
-                  )})}
+                      <div className='image-container' key={index}>
+                        <img
+                          className='w-full h-auto'
+                          src={'/images/' + survivor + '.jpg'}
+                          alt={survivor}
+                        />
+                        { isDead && (
+                          <div className='overlay'></div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
 
               </div>
@@ -129,5 +97,6 @@ function Tribes() {
     </div>
   );
 }
+
 
 export default Tribes;
