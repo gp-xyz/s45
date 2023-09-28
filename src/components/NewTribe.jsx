@@ -9,6 +9,7 @@ function NewTribe() {
   const [picked, setPicked] = useState([]);
   const { contestants, deadList } = useAppContext();
  
+ 
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -31,7 +32,7 @@ function NewTribe() {
     console.log(outData);
   }
   function NTCallback(event) {
-    console.log(event);
+
     setPicked(event);
   }
 
@@ -61,7 +62,7 @@ function NewTribe() {
           />
         </div>
         <div className="mb-2 sm:ml-4">
-          <label htmlFor="energy">Energy:</label>
+          <label htmlFor="energy">Motto:</label>
           <input
             id="energy"
             type="text"

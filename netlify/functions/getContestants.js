@@ -10,7 +10,7 @@ export const handler = async (event, context) => {
     // Fetch the only document in the collection
     const result = await client.query(
       q.Map(
-        q.Paginate(q.Documents(q.Collection('contestants')), { size: 18 }),
+        q.Paginate(q.Documents(q.Collection('contestants')), { size: 100 }),
         q.Lambda('ref', q.Select(['data'], q.Get(q.Var('ref'))))
       )
     );
