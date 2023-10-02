@@ -4,7 +4,7 @@
 
 body {
   @apply font-sans text-2xl antialiased text-pink-200;
-  background-image: url('./tropics.jpg');
+  background-image: url('./unwater.jpg');
   background-size: cover;
   background-position: top center;
 }
@@ -44,23 +44,23 @@ body {
 
 
 .text-gabe{
-  @apply text-yellow-100;
+  @apply text-slate-900;
 }
 
 .bubblebox{
-  @apply rounded-3xl text-gabe bg-slate-300 m-6 p-3 min-w-fit bg-opacity-50;
+  @apply rounded-3xl text-gabe bg-slate-800 m-6 p-3 min-w-fit bg-opacity-50;
 }
 
 
 .lilbubble{
-  @apply rounded text-gabe  bg-slate-400 m-3 p-3 min-w-fit bg-opacity-90;
+  @apply rounded text-gabe  bg-blue-200 m-3 p-3 min-w-fit bg-opacity-80;
 }
 .lilgrid{
   @apply rounded-sm bg-slate-400 m-1 p-1 min-w-fit bg-opacity-90;
 }
 
 .nav-link {
-  @apply  text-green-100 block py-2 px-4 text-center transition-colors duration-200 bg-orange-300 bg-opacity-70;
+  @apply  text-orange-100 block py-2 px-4 text-center transition-colors duration-200 bg-cyan-700 bg-opacity-90;
 }
 
 .nav-link:hover {
